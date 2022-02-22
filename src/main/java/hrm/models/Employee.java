@@ -1,6 +1,6 @@
 package hrm.models;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Employee extends EntityBase {
     private String firstName;
@@ -113,5 +113,13 @@ public class Employee extends EntityBase {
 
     public void setDepartmentId(int departmentId) {
         this.departmentId = departmentId;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

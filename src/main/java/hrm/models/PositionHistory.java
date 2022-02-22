@@ -1,6 +1,6 @@
 package hrm.models;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class PositionHistory extends EntityBase {
     private Date startDate;
