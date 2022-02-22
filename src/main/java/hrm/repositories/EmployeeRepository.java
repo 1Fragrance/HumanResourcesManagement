@@ -13,7 +13,7 @@ import java.util.List;
 
 public class EmployeeRepository {
 
-    private Employee MapResultSetToEntity(ResultSet resultSet) throws SQLException {
+    private static Employee MapResultSetToEntity(ResultSet resultSet) throws SQLException {
         Employee position = new Employee();
 
         position.setId(resultSet.getInt("id"));
@@ -34,7 +34,7 @@ public class EmployeeRepository {
         return position;
     }
 
-    public Employee GetEmployeeByCredentials(String username, String password) throws SQLException, ClassNotFoundException{
+    public static Employee GetEmployeeByCredentials(String username, String password) throws SQLException, ClassNotFoundException{
         Connection connection = DbContext.openConnection();
         String query = "SELECT * FROM Employee WHERE userName = ? && password = ?" ;
         PreparedStatement sqlStatement = connection.prepareStatement(query);
@@ -50,7 +50,22 @@ public class EmployeeRepository {
         return null;
     }
 
-    public Employee GetEmployeeById(int id) throws SQLException, ClassNotFoundException{
+    public static Employee GetEmployeeByCredentials(String username) throws SQLException, ClassNotFoundException{
+        Connection connection = DbContext.openConnection();
+        String query = "SELECT * FROM Employee WHERE userName = ?" ;
+        PreparedStatement sqlStatement = connection.prepareStatement(query);
+
+        sqlStatement.setString(1, username);
+
+        ResultSet results = sqlStatement.executeQuery();
+
+        if(results.next()) {
+            return MapResultSetToEntity(results);
+        }
+        return null;
+    }
+
+    public static Employee GetEmployeeById(int id) throws SQLException, ClassNotFoundException{
         Connection connection = DbContext.openConnection();
         String query = "SELECT * FROM Employee WHERE Id = ?";
         PreparedStatement sqlStatement = connection.prepareStatement(query);
@@ -65,7 +80,7 @@ public class EmployeeRepository {
         return null;
     }
 
-    public List<Employee> GetEmployees() throws SQLException, ClassNotFoundException{
+    public static List<Employee> GetEmployees() throws SQLException, ClassNotFoundException{
         Connection connection = DbContext.openConnection();
         String query = "SELECT * FROM Employee";
         PreparedStatement sqlStatement = connection.prepareStatement(query);
@@ -80,7 +95,7 @@ public class EmployeeRepository {
         return resultList;
     }
 
-    public void InsertEmployee(Employee employee) throws SQLException, ClassNotFoundException{
+    public static void InsertEmployee(Employee employee) throws SQLException, ClassNotFoundException{
         Connection connection = DbContext.openConnection();
         String query = "INSERT `employee` (firstname, lastname, patronymic, phonenumber, hireDate, salary, email, username, password, isAdmin, status, positionId, departmentId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement sqlStatement = connection.prepareStatement(query);
@@ -103,7 +118,7 @@ public class EmployeeRepository {
         sqlStatement.executeUpdate();
     }
 
-    public void DeleteEmployee(int id) throws SQLException, ClassNotFoundException{
+    public static void DeleteEmployee(int id) throws SQLException, ClassNotFoundException{
         Connection connection = DbContext.openConnection();
 
         String query = "DELETE FROM Employee WHERE Id = ?";
@@ -113,7 +128,7 @@ public class EmployeeRepository {
         sqlStatement.executeUpdate();
     }
 
-    public void UpdateEmployee(Employee employee) throws SQLException, ClassNotFoundException{
+    public static void UpdateEmployee(Employee employee) throws SQLException, ClassNotFoundException{
         Connection connection = DbContext.openConnection();
 
         String query = "UPDATE Employee SET firstname = ?, lastname = ?, patronymic = ?, phonenumber = ?, hireDate = ?, salary = ?, email = ?, username = ?, password = ?, isAdmin = ?, status = ?, positionId = ?, departmentId = ? WHERE Id = ?";

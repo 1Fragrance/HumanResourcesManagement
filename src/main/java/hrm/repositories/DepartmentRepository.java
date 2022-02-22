@@ -12,7 +12,7 @@ import java.util.List;
 
 public class DepartmentRepository {
 
-    private Department MapResultSetToEntity(ResultSet resultSet) throws SQLException {
+    private static Department MapResultSetToEntity(ResultSet resultSet) throws SQLException {
         Department department = new Department();
 
         department.setId(resultSet.getInt("id"));
@@ -22,7 +22,7 @@ public class DepartmentRepository {
         return department;
     }
 
-    public Department GetDepartmentById(int id) throws SQLException, ClassNotFoundException {
+    public static Department GetDepartmentById(int id) throws SQLException, ClassNotFoundException {
         Connection connection = DbContext.openConnection();
         String query = "SELECT * FROM Department WHERE Id = ?";
         PreparedStatement sqlStatement = connection.prepareStatement(query);
@@ -37,7 +37,7 @@ public class DepartmentRepository {
         return null;
     }
 
-    public List<Department> GetDepartments() throws SQLException, ClassNotFoundException {
+    public static List<Department> GetDepartments() throws SQLException, ClassNotFoundException {
         Connection connection = DbContext.openConnection();
         String query = "SELECT * FROM Department";
         PreparedStatement sqlStatement = connection.prepareStatement(query);
@@ -52,7 +52,7 @@ public class DepartmentRepository {
         return resultList;
     }
 
-    public void InsertDepartment(Department department) throws SQLException, ClassNotFoundException {
+    public static void InsertDepartment(Department department) throws SQLException, ClassNotFoundException {
         Connection connection = DbContext.openConnection();
         String query = "INSERT Department (name, officeId) VALUES (?, ?)";
         PreparedStatement sqlStatement = connection.prepareStatement(query);
@@ -62,7 +62,7 @@ public class DepartmentRepository {
         sqlStatement.executeUpdate();
     }
 
-    public void DeleteDepartment(int id) throws SQLException, ClassNotFoundException {
+    public static void DeleteDepartment(int id) throws SQLException, ClassNotFoundException {
         Connection connection = DbContext.openConnection();
         String query = "DELETE FROM Department WHERE Id = ?";
         PreparedStatement sqlStatement = connection.prepareStatement(query);
@@ -71,7 +71,7 @@ public class DepartmentRepository {
         sqlStatement.executeUpdate();
     }
 
-    public void UpdateDepartment(Department department) throws SQLException, ClassNotFoundException {
+    public static void UpdateDepartment(Department department) throws SQLException, ClassNotFoundException {
         Connection connection = DbContext.openConnection();
         String query = "UPDATE Department SET name = ?, officeId = ? WHERE Id = ?";
         PreparedStatement sqlStatement = connection.prepareStatement(query);

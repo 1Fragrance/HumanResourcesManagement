@@ -12,7 +12,7 @@ import java.util.List;
 
 public class OfficeRepository {
 
-    private Office MapResultSetToEntity(ResultSet resultSet) throws SQLException {
+    private static Office MapResultSetToEntity(ResultSet resultSet) throws SQLException {
         Office office = new Office();
 
         office.setId(resultSet.getInt("id"));
@@ -25,7 +25,7 @@ public class OfficeRepository {
         return office;
     }
 
-    public Office GetOfficeById(int id) throws SQLException, ClassNotFoundException {
+    public static Office GetOfficeById(int id) throws SQLException, ClassNotFoundException {
         Connection connection = DbContext.openConnection();
         String query = "SELECT * FROM Office WHERE Id = ?";
         PreparedStatement sqlStatement = connection.prepareStatement(query);
@@ -40,7 +40,7 @@ public class OfficeRepository {
         return null;
     }
 
-    public List<Office> GetOffices() throws SQLException, ClassNotFoundException {
+    public static List<Office> GetOffices() throws SQLException, ClassNotFoundException {
         Connection connection = DbContext.openConnection();
         String query = "SELECT * FROM Office";
         PreparedStatement sqlStatement = connection.prepareStatement(query);
@@ -55,7 +55,7 @@ public class OfficeRepository {
         return resultList;
     }
 
-    public void InsertOffice(Office office) throws SQLException, ClassNotFoundException{
+    public static void InsertOffice(Office office) throws SQLException, ClassNotFoundException{
         Connection connection = DbContext.openConnection();
         String query = "INSERT `office` (internalName, streetAddress, postalCode, country, city) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement sqlStatement = connection.prepareStatement(query);
@@ -69,7 +69,7 @@ public class OfficeRepository {
         sqlStatement.executeUpdate();
     }
 
-    public void DeleteOffice(int id) throws SQLException, ClassNotFoundException{
+    public static void DeleteOffice(int id) throws SQLException, ClassNotFoundException{
         Connection connection = DbContext.openConnection();
 
         String query = "DELETE FROM Office WHERE Id = ?";
@@ -79,7 +79,7 @@ public class OfficeRepository {
         sqlStatement.executeUpdate();
     }
 
-    public void UpdateOffice(Office office) throws SQLException, ClassNotFoundException{
+    public static void UpdateOffice(Office office) throws SQLException, ClassNotFoundException{
         Connection connection = DbContext.openConnection();
         String query = "UPDATE office SET internalName = ?, streetAddress = ?, postalCode = ?, country = ?, city = ? WHERE Id = ?";
         PreparedStatement sqlStatement = connection.prepareStatement(query);

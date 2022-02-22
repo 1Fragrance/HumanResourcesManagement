@@ -1,5 +1,6 @@
 package hrm.db;
 
+import hrm.helpers.CookieHelper;
 import hrm.infrastructure.Constants;
 
 import java.sql.Connection;
@@ -17,6 +18,22 @@ public class DbContext {
     public static void closeConnection(Connection connection) {
         try {
             connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public static void rollbackTransaction(Connection conn) {
+        try {
+            conn.rollback();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public static void commitTransaction(Connection conn) {
+        try {
+            conn.commit();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
