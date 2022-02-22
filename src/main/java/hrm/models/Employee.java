@@ -14,10 +14,10 @@ public class Employee extends EntityBase {
     private String userName;
     private String password;
     private Boolean isAdmin;
+    private int status;
 
     private int positionId;
     private int departmentId;
-    private int managerId;
 
     public String getFirstName() {
         return firstName;
@@ -113,13 +113,5 @@ public class Employee extends EntityBase {
 
     public void setDepartmentId(int departmentId) {
         this.departmentId = departmentId;
-    }
-
-    public int getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(int managerId) {
-        this.managerId = managerId;
     }
 }

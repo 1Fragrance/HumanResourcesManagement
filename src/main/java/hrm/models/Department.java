@@ -3,7 +3,6 @@ package hrm.models;
 public class Department extends EntityBase {
     private String name;
 
-    private int managerId;
     private int officeId;
 
     public String getName() {
@@ -12,14 +11,6 @@ public class Department extends EntityBase {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(int managerId) {
-        this.managerId = managerId;
     }
 
     public int getOfficeId() {

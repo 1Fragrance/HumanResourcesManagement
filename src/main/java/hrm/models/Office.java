@@ -3,6 +3,7 @@ package hrm.models;
 public class Office extends EntityBase {
     private String streetAddress;
     private String postalCode;
+    private String internalName;
 
     // TODO: FK to separate tables
     private String country;
@@ -38,5 +39,13 @@ public class Office extends EntityBase {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getInternalName() {
+        return internalName;
+    }
+
+    public void setInternalName(String internalName) {
+        this.internalName = internalName;
     }
 }
