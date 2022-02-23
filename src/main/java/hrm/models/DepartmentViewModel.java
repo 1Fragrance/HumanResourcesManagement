@@ -3,6 +3,7 @@ package hrm.models;
 public class DepartmentViewModel extends ModelBase {
     private String name;
 
+    private int officeId;
     private OfficeViewModel office;
 
     public String getName() {
@@ -16,7 +17,15 @@ public class DepartmentViewModel extends ModelBase {
         return office;
     }
 
-    public void setOfficeId(OfficeViewModel officeId) {
+    public void setOffice(OfficeViewModel office) {
         this.office = office;
+    }
+
+    public int getOfficeId() {
+        return officeId;
+    }
+
+    public void setOfficeId(int officeId) {
+        this.officeId = officeId;
     }
 }
