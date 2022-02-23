@@ -3,6 +3,7 @@ package hrm.servlets;
 import hrm.entities.Department;
 import hrm.entities.Employee;
 import hrm.entities.Position;
+import hrm.helpers.AuthHelper;
 import hrm.helpers.DateHelper;
 import hrm.infrastructure.Constants;
 import hrm.infrastructure.EmployeeStatuses;
@@ -43,6 +44,11 @@ public class EmployeeEditServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        if(!AuthHelper.ValidateAdminPermission(request)) {
+            response.sendRedirect("/");
+        }
+
         Employee employee = parseForm(request);
         int id = Integer.parseInt(request.getParameter("id"));
         employee.setId(id);

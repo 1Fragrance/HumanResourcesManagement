@@ -2,6 +2,7 @@ package hrm.servlets;
 
 import hrm.entities.Department;
 import hrm.entities.Office;
+import hrm.helpers.AuthHelper;
 import hrm.repositories.DepartmentRepository;
 import hrm.repositories.OfficeRepository;
 
@@ -24,6 +25,10 @@ public class OfficeCreateServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(!AuthHelper.ValidateAdminPermission(request)) {
+            response.sendRedirect("/");
+        }
+
         Office office = parseForm(request);
         try {
             officeRepository.InsertOffice(office);

@@ -3,6 +3,7 @@ package hrm.servlets;
 import hrm.entities.Department;
 import hrm.entities.Office;
 import hrm.entities.Position;
+import hrm.helpers.AuthHelper;
 import hrm.models.LookupViewModel;
 import hrm.repositories.DepartmentRepository;
 import hrm.repositories.OfficeRepository;
@@ -30,6 +31,10 @@ public class DepartmentEditServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(!AuthHelper.ValidateAdminPermission(request)) {
+            response.sendRedirect("/");
+        }
+
         Department department = parseForm(request);
         int id = Integer.parseInt(request.getParameter("id"));
         department.setId(id);

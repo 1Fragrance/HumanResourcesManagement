@@ -1,6 +1,7 @@
 package hrm.servlets;
 
 import hrm.entities.Position;
+import hrm.helpers.AuthHelper;
 import hrm.repositories.*;
 
 import javax.servlet.RequestDispatcher;
@@ -23,6 +24,11 @@ public class PositionEditServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        if(!AuthHelper.ValidateAdminPermission(request)) {
+            response.sendRedirect("/");
+        }
+
         Position position = parseForm(request);
         int id = Integer.parseInt(request.getParameter("id"));
         position.setId(id);

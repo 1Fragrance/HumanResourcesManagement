@@ -3,6 +3,7 @@ package hrm.servlets;
 import hrm.entities.Department;
 import hrm.entities.Office;
 import hrm.entities.Position;
+import hrm.helpers.AuthHelper;
 import hrm.infrastructure.Constants;
 import hrm.infrastructure.EmployeeStatuses;
 import hrm.models.LookupViewModel;
@@ -30,6 +31,11 @@ public class DepartmentCreateServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        if(!AuthHelper.ValidateAdminPermission(request)) {
+            response.sendRedirect("/");
+        }
+
         Department department = parseForm(request);
         try {
             departmentRepository.InsertDepartment(department);

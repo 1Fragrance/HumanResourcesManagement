@@ -1,6 +1,7 @@
 package hrm.servlets;
 
 import hrm.entities.Position;
+import hrm.helpers.AuthHelper;
 import hrm.repositories.*;
 
 import javax.servlet.RequestDispatcher;
@@ -21,6 +22,11 @@ public class PositionCreateServlet extends HttpServlet  {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        if(!AuthHelper.ValidateAdminPermission(request)) {
+            response.sendRedirect("/");
+        }
+
         Position position = parseForm(request);
         try {
             positionRepository.InsertPosition(position);

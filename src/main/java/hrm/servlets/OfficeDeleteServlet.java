@@ -1,5 +1,6 @@
 package hrm.servlets;
 
+import hrm.helpers.AuthHelper;
 import hrm.repositories.OfficeRepository;
 
 import javax.servlet.ServletException;
@@ -19,6 +20,11 @@ public class OfficeDeleteServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        if(!AuthHelper.ValidateAdminPermission(request)) {
+            response.sendRedirect("/");
+        }
+
         int id = Integer.parseInt(request.getParameter("id"));
         try {
             officeRepository.DeleteOffice(id);

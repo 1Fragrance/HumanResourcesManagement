@@ -1,6 +1,7 @@
 package hrm.servlets;
 
 import hrm.entities.Employee;
+import hrm.helpers.AuthHelper;
 import hrm.infrastructure.Constants;
 import hrm.infrastructure.EmployeeStatuses;
 import hrm.repositories.*;
@@ -23,6 +24,11 @@ public class EmployeeBlockServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        if(!AuthHelper.ValidateAdminPermission(request)) {
+            response.sendRedirect("/");
+        }
+
         int id = Integer.parseInt(request.getParameter("id"));
         try {
             Employee employee = employeeRepository.GetEmployeeById(id);

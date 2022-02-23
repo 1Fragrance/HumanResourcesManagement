@@ -3,6 +3,7 @@ package hrm.servlets;
 import hrm.entities.Department;
 import hrm.entities.Employee;
 import hrm.entities.Position;
+import hrm.helpers.AuthHelper;
 import hrm.helpers.DateHelper;
 import hrm.infrastructure.Constants;
 import hrm.infrastructure.EmployeeStatuses;
@@ -43,6 +44,10 @@ public class EmployeeCreateServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(!AuthHelper.ValidateAdminPermission(request)) {
+            response.sendRedirect("/");
+        }
+
         Employee employee = parseForm(request);
         try {
             employeeRepository.InsertEmployee(employee);
@@ -66,6 +71,7 @@ public class EmployeeCreateServlet extends HttpServlet {
     }
 
     private void populateDropDowns(HttpServletRequest request) throws SQLException, ClassNotFoundException {
+
         List<LookupViewModel> statuses = new ArrayList<>();
         statuses.add(new LookupViewModel(Constants.ResourceStrings.ActiveStatus, Integer.toString(EmployeeStatuses.Active)));
         statuses.add(new LookupViewModel(Constants.ResourceStrings.BlockedStatus, Integer.toString(EmployeeStatuses.Blocked)));

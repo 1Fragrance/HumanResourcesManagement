@@ -1,5 +1,6 @@
 package hrm.servlets;
 
+import hrm.helpers.AuthHelper;
 import hrm.repositories.PositionRepository;
 
 import javax.servlet.ServletException;
@@ -19,6 +20,11 @@ public class PositionDeleteServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        if(!AuthHelper.ValidateAdminPermission(request)) {
+            response.sendRedirect("/");
+        }
+
         int id = Integer.parseInt(request.getParameter("id"));
         try {
             repository.DeletePosition(id);
