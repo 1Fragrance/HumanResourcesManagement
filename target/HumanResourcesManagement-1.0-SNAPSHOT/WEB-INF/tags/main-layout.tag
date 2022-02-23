@@ -28,7 +28,6 @@
             </ul>
             </form>
         </t:if>
-
         </div>
     </nav>
 </header>

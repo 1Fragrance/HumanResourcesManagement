@@ -17,7 +17,7 @@
                     <li class="index-button-list-item"><a href="/tasks.html" class="col-5 btn btn-dark btn-lg">Управление офисами</a></li>
                     <li class="index-button-list-item"><a href="/workers.html" class="col-5 btn btn-dark btn-lg">Управление отделами</a></li>
                     <li class="index-button-list-item"><a href="/workers.html" class="col-5 btn btn-dark btn-lg">Управление должностями</a></li>
-                    <li class="index-button-list-item"><a href="/workers.html" class="col-5 btn btn-dark btn-lg">Просмотр истории сотрудников</a></li>
+                    <li class="index-button-list-item"><a href="${pageContext.request.contextPath}/positionHistory" class="col-5 btn btn-dark btn-lg">Просмотр истории сотрудников</a></li>
                 </ul>
             </div>
         </div>
