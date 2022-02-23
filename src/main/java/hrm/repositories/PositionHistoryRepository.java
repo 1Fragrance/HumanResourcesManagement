@@ -1,7 +1,7 @@
 package hrm.repositories;
 
 import hrm.db.DbContext;
-import hrm.models.PositionHistory;
+import hrm.entities.PositionHistory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class PositionHistoryRepository {
 
-    private static PositionHistory MapResultSetToEntity(ResultSet resultSet) throws SQLException {
+    private PositionHistory MapResultSetToEntity(ResultSet resultSet) throws SQLException {
         PositionHistory positionHistory = new PositionHistory();
 
         positionHistory.setId(resultSet.getInt("id"));
@@ -25,7 +25,7 @@ public class PositionHistoryRepository {
         return positionHistory;
     }
 
-    public static PositionHistory GetPositionHistoryById(int id) throws SQLException, ClassNotFoundException {
+    public PositionHistory GetPositionHistoryById(int id) throws SQLException, ClassNotFoundException {
         Connection connection = DbContext.openConnection();
         String query = "SELECT * FROM PositionHistory WHERE Id = ?";
         PreparedStatement sqlStatement = connection.prepareStatement(query);
@@ -40,7 +40,7 @@ public class PositionHistoryRepository {
         return null;
     }
 
-    public static List<PositionHistory> GetPositionHistories() throws SQLException, ClassNotFoundException{
+    public List<PositionHistory> GetPositionHistories() throws SQLException, ClassNotFoundException{
         Connection connection = DbContext.openConnection();
         String query = "SELECT * FROM PositionHistory";
         PreparedStatement sqlStatement = connection.prepareStatement(query);
@@ -55,7 +55,7 @@ public class PositionHistoryRepository {
         return resultList;
     }
 
-    public static void InsertPositionHistory(PositionHistory positionHistory) throws SQLException, ClassNotFoundException {
+    public void InsertPositionHistory(PositionHistory positionHistory) throws SQLException, ClassNotFoundException {
         Connection connection = DbContext.openConnection();
         String query = "INSERT `positionHistory` (startDate, endDate, employeeId, positionId, departmentId) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement sqlStatement = connection.prepareStatement(query);
@@ -69,7 +69,7 @@ public class PositionHistoryRepository {
         sqlStatement.executeUpdate();
     }
 
-    public static void DeletePositionHistory(int id) throws SQLException, ClassNotFoundException {
+    public void DeletePositionHistory(int id) throws SQLException, ClassNotFoundException {
         Connection connection = DbContext.openConnection();
 
         String query = "DELETE FROM PositionHistory WHERE Id = ?";
@@ -79,7 +79,7 @@ public class PositionHistoryRepository {
         sqlStatement.executeUpdate();
     }
 
-    public static void UpdatePositionHistory(PositionHistory positionHistory) throws SQLException, ClassNotFoundException {
+    public void UpdatePositionHistory(PositionHistory positionHistory) throws SQLException, ClassNotFoundException {
         Connection connection = DbContext.openConnection();
         String query = "UPDATE PositionHistory SET startDate = ?, endDate = ?, employeeId = ?, positionId = ?, departmentId = ? WHERE Id = ?";
         PreparedStatement sqlStatement = connection.prepareStatement(query);

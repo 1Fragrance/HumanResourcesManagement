@@ -18,9 +18,9 @@ CREATE TABLE IF NOT EXISTS `office` (
 CREATE TABLE IF NOT EXISTS `department` (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    officeId INT NOT NULL,
+    officeId INT NULL,
 
-    FOREIGN KEY (officeId) REFERENCES office(id)
+    FOREIGN KEY (officeId) REFERENCES office(id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS `employee` (
@@ -37,10 +37,10 @@ CREATE TABLE IF NOT EXISTS `employee` (
     isAdmin BOOLEAN NOT NULL,
     status INT NOT NULL,
 
-    positionId INT NOT NULL,
-    departmentId INT NOT NULL,
-    FOREIGN KEY (positionId) REFERENCES `position`(id),
-    FOREIGN KEY (departmentId) REFERENCES department(id)
+    positionId INT NULL,
+    departmentId INT NULL,
+    FOREIGN KEY (positionId) REFERENCES `position`(id) ON DELETE SET NULL,
+    FOREIGN KEY (departmentId) REFERENCES department(id) ON DELETE SET NULL
 );
 
 
@@ -52,9 +52,10 @@ CREATE TABLE IF NOT EXISTS `positionHistory` (
     employeeId INT NOT NULL,
     positionId INT NOT NULL,
     departmentId INT NOT NULL,
-    FOREIGN KEY (employeeId) REFERENCES employee(id),
-    FOREIGN KEY (positionId) REFERENCES `position`(id),
-    FOREIGN KEY (departmentId) REFERENCES department(id)
+
+    FOREIGN KEY (employeeId) REFERENCES employee(id) ON DELETE CASCADE,
+    FOREIGN KEY (positionId) REFERENCES `position`(id) ON DELETE CASCADE,
+    FOREIGN KEY (departmentId) REFERENCES department(id) ON DELETE CASCADE
 );
 
 

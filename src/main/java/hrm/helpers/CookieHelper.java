@@ -1,7 +1,7 @@
 package hrm.helpers;
 
 import hrm.infrastructure.Constants;
-import hrm.models.Employee;
+import hrm.entities.Employee;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +15,6 @@ public class CookieHelper {
     public static Employee getCurrentUser(HttpSession session) {
         return (Employee) session.getAttribute("currentUser");
     }
-
 
     public static void storeUserCookie(HttpServletResponse response, Employee user) {
         Cookie cookieUserName = new Cookie(Constants.CookieConstants.ATT_NAME_USER_NAME, user.getUserName());

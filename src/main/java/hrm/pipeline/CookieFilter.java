@@ -1,7 +1,7 @@
 package hrm.pipeline;
 
 import hrm.helpers.CookieHelper;
-import hrm.models.Employee;
+import hrm.entities.Employee;
 import hrm.repositories.EmployeeRepository;
 
 import javax.servlet.*;
@@ -15,7 +15,9 @@ import java.sql.SQLException;
 @WebFilter(filterName = "cookieFilter", urlPatterns = { "/*" })
 public class CookieFilter implements Filter {
 
+    EmployeeRepository employeeRepository;
     public CookieFilter() {
+        employeeRepository = new EmployeeRepository();
     }
 
     @Override
@@ -44,7 +46,7 @@ public class CookieFilter implements Filter {
         if (checked == null) {
             String userName = CookieHelper.getUserNameInCookie(req);
             try {
-                Employee user = EmployeeRepository.GetEmployeeByCredentials(userName);
+                Employee user = employeeRepository.GetEmployeeByCredentials(userName);
                 CookieHelper.storeCurrentUser(session, user);
             } catch (SQLException | ClassNotFoundException e) {
                 e.printStackTrace();

@@ -1,7 +1,7 @@
 package hrm.repositories;
 
 import hrm.db.DbContext;
-import hrm.models.Position;
+import hrm.entities.Position;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PositionRepository {
-    private static Position MapResultSetToEntity(ResultSet resultSet) throws SQLException {
+    private Position MapResultSetToEntity(ResultSet resultSet) throws SQLException {
         Position position = new Position();
 
         position.setId(resultSet.getInt("id"));
@@ -22,7 +22,7 @@ public class PositionRepository {
         return position;
     }
 
-    public static Position GetPositionById(int id) throws SQLException, ClassNotFoundException {
+    public Position GetPositionById(int id) throws SQLException, ClassNotFoundException {
         Connection connection = DbContext.openConnection();
         String query = "SELECT * FROM Position WHERE Id = ?";
         PreparedStatement sqlStatement = connection.prepareStatement(query);
@@ -37,7 +37,7 @@ public class PositionRepository {
         return null;
     }
 
-    public static List<Position> GetPositions() throws SQLException, ClassNotFoundException{
+    public List<Position> GetPositions() throws SQLException, ClassNotFoundException{
         Connection connection = DbContext.openConnection();
         String query = "SELECT * FROM Position";
         PreparedStatement sqlStatement = connection.prepareStatement(query);
@@ -52,7 +52,7 @@ public class PositionRepository {
         return resultList;
     }
 
-    public static void InsertPosition(Position position) throws SQLException, ClassNotFoundException {
+    public void InsertPosition(Position position) throws SQLException, ClassNotFoundException {
         Connection connection = DbContext.openConnection();
         String query = "INSERT `position` (title, minSalary, maxSalary) VALUES (?, ?, ?)";
         PreparedStatement sqlStatement = connection.prepareStatement(query);
@@ -64,7 +64,7 @@ public class PositionRepository {
         sqlStatement.executeUpdate();
     }
 
-    public static void DeletePosition(int id) throws SQLException, ClassNotFoundException {
+    public void DeletePosition(int id) throws SQLException, ClassNotFoundException {
         Connection connection = DbContext.openConnection();
 
         String query = "DELETE FROM `position` WHERE Id = ?";
@@ -74,7 +74,7 @@ public class PositionRepository {
         sqlStatement.executeUpdate();
     }
 
-    public static void UpdatePosition(Position position) throws SQLException, ClassNotFoundException {
+    public void UpdatePosition(Position position) throws SQLException, ClassNotFoundException {
         Connection connection = DbContext.openConnection();
         String query = "UPDATE `position` SET title = ?, minSalary = ?, maxSalary = ? WHERE Id = ?";
         PreparedStatement sqlStatement = connection.prepareStatement(query);
