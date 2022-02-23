@@ -1,9 +1,14 @@
 package hrm.servlets;
 
 import hrm.entities.Department;
+import hrm.entities.Office;
+import hrm.entities.Position;
 import hrm.models.DepartmentViewModel;
 import hrm.models.mappers.DepartmentMapper;
+import hrm.models.mappers.OfficeMapper;
+import hrm.models.mappers.PositionMapper;
 import hrm.repositories.DepartmentRepository;
+import hrm.repositories.OfficeRepository;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,9 +25,11 @@ import java.util.List;
 public class DepartmentListServlet extends HttpServlet {
 
     private DepartmentRepository departmentRepository;
+    private OfficeRepository officeRepository;
 
     public void init() {
         departmentRepository = new DepartmentRepository();
+        officeRepository = new OfficeRepository();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,6 +43,12 @@ public class DepartmentListServlet extends HttpServlet {
             List<DepartmentViewModel> resultList = new ArrayList<>();
             for (Department department : list) {
                 DepartmentViewModel viewModel = DepartmentMapper.MapToModel(department);
+
+                Office office = officeRepository.GetOfficeById(department.getOfficeId());
+                if (office != null) {
+                    viewModel.setOffice(OfficeMapper.MapToModel(office));
+                }
+
                 resultList.add(viewModel);
             }
 
