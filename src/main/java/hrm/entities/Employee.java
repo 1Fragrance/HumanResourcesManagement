@@ -1,8 +1,9 @@
 package hrm.entities;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Employee extends EntityBase {
+public class Employee extends EntityBase implements Serializable {
     private String firstName;
     private String lastName;
     private String patronymic;

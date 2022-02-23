@@ -1,6 +1,5 @@
 package hrm.db;
 
-import hrm.helpers.CookieHelper;
 import hrm.infrastructure.Constants;
 
 import java.sql.Connection;

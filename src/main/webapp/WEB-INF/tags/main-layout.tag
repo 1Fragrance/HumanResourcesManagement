@@ -13,14 +13,22 @@
 <body>
 
 <header>
-    <nav class="navbar navbar-expand-md navbar-dark" style="background-color: tomato">
-        <div>
-            <a href="/" class="navbar-brand"> Система управления персоналом </a>
-        </div>
-
-        <ul class="navbar-nav">
+    <nav class="navbar navbar-expand-md navbar-dark " style="background-color: tomato">
+        <div class="container-fluid">
+        <ul class="navbar-nav navbar-left">
+            <li><a href="/" class="navbar-brand"> Система управления персоналом </a></li>
+            <t:if test="${user != null}">
             <li><a href="${pageContext.request.contextPath}/employee" class="nav-link">Сотрудники</a></li>
+            </t:if>
         </ul>
+        <t:if test="${user != null}">
+            <form method="post" action="logout">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a onclick="this.closest('form').submit();return false;" class="nav-link" href="${pageContext.request.contextPath}/logout">Выход из системы</a></li>
+            </ul>
+            </form>
+        </t:if>
+        </div>
     </nav>
 </header>
 
