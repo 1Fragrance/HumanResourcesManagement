@@ -5,10 +5,10 @@
 <t:main-layout>
     <div class="row">
         <div class="container">
-            <h3 class="text-center">Список отделов</h3>
+            <h3 class="text-center">Список должностей</h3>
             <hr>
             <div class="container text-left">
-                <a href="${pageContext.request.contextPath}/departmentCreate" class="btn btn-success">Добавить новый отдел</a>
+                <a href="${pageContext.request.contextPath}/positionCreate" class="btn btn-success">Добавить новую должность</a>
             </div>
             <br>
             <table class="table table-bordered">
@@ -16,28 +16,31 @@
                 <tr>
                     <th>ID</th>
                     <th>Название</th>
-                    <th>Офис</th>
+                    <th>Минимальная ЗП</th>
+                    <th>Максимальная ЗП</th>
                     <th>Операции</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                <c:forEach var="department" items="${departmentList}">
+                <c:forEach var="position" items="${positionList}">
                     <tr>
                         <td>
-                                ${department.id}
+                                ${position.id}
                         </td>
                         <td>
-                                ${department.name}
+                                ${position.title}
                         </td>
                         <td>
-                                ${department.office.internalName}
+                                ${position.minSalary}
                         </td>
-
                         <td>
-                            <a href="departmentEdit?id=${department.id}">Редактировать</a>
+                                ${position.maxSalary}
+                        </td>
+                        <td>
+                            <a href="positionEdit?id=${position.id}">Редактировать</a>
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <a href="deleteDepartment?id=${department.id}">Удалить</a></td>
+                            <a href="deletePosition?id=${position.id}">Удалить</a></td>
                     </tr>
                 </c:forEach>
                 </tbody>
