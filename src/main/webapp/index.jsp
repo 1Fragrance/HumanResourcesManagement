@@ -12,9 +12,8 @@
         <div class="container">
             <div class="col-md-12 text-center">
                 <ul class="index-button-list">
-
                     <li class="index-button-list-item"><a href="${pageContext.request.contextPath}/employee" class="col-5 btn btn-dark btn-lg">Управление сотрудниками</a></li>
-                    <li class="index-button-list-item"><a href="${pageContext.request.contextPath}/employee" class="col-5 btn btn-dark btn-lg">Управление офисами</a></li>
+                    <li class="index-button-list-item"><a href="${pageContext.request.contextPath}/office" class="col-5 btn btn-dark btn-lg">Управление офисами</a></li>
                     <li class="index-button-list-item"><a href="${pageContext.request.contextPath}/department" class="col-5 btn btn-dark btn-lg">Управление отделами</a></li>
                     <li class="index-button-list-item"><a href="${pageContext.request.contextPath}/position" class="col-5 btn btn-dark btn-lg">Управление должностями</a></li>
                     <li class="index-button-list-item"><a href="${pageContext.request.contextPath}/positionHistory" class="col-5 btn btn-dark btn-lg">Просмотр истории сотрудников</a></li>

@@ -1,9 +1,9 @@
 package hrm.servlets;
 
-import hrm.entities.Department;
-import hrm.models.DepartmentViewModel;
-import hrm.models.mappers.DepartmentMapper;
-import hrm.repositories.DepartmentRepository;
+import hrm.entities.Office;
+import hrm.models.OfficeViewModel;
+import hrm.models.mappers.OfficeMapper;
+import hrm.repositories.OfficeRepository;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,14 +15,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@WebServlet("/office")
+public class OfficeListServlet extends HttpServlet {
 
-@WebServlet("/department")
-public class DepartmentListServlet extends HttpServlet {
-
-    private DepartmentRepository departmentRepository;
+    private OfficeRepository officeRepository;
 
     public void init() {
-        departmentRepository = new DepartmentRepository();
+        officeRepository = new OfficeRepository();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,16 +30,16 @@ public class DepartmentListServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            List<Department> list = departmentRepository.GetDepartments();
+            List<Office> list = officeRepository.GetOffices();
 
-            List<DepartmentViewModel> resultList = new ArrayList<>();
-            for (Department department : list) {
-                DepartmentViewModel viewModel = DepartmentMapper.MapToModel(department);
+            List<OfficeViewModel> resultList = new ArrayList<>();
+            for (Office office : list) {
+                OfficeViewModel viewModel = OfficeMapper.MapToModel(office);
                 resultList.add(viewModel);
             }
 
-            request.setAttribute("departmentList", resultList);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("department-list.jsp");
+            request.setAttribute("officeList", resultList);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("office-list.jsp");
             dispatcher.forward(request, response);
         }
         catch(Exception ex) {
