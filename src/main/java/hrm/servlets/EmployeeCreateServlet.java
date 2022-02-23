@@ -3,6 +3,7 @@ package hrm.servlets;
 import hrm.entities.Department;
 import hrm.entities.Employee;
 import hrm.entities.Position;
+import hrm.entities.PositionHistory;
 import hrm.helpers.AuthHelper;
 import hrm.helpers.DateHelper;
 import hrm.infrastructure.Constants;
@@ -51,6 +52,10 @@ public class EmployeeCreateServlet extends HttpServlet {
         Employee employee = parseForm(request);
         try {
             employeeRepository.InsertEmployee(employee);
+
+            Date currentDate = DateHelper.getUTCdatetimeAsDate();
+            java.sql.Date sqlDate = new java.sql.Date(currentDate.getTime());
+            positionHistoryRepository.InsertPositionHistory(new PositionHistory(sqlDate, null, employee.getId(), employee.getPositionId(), employee.getDepartmentId()));
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }

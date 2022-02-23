@@ -3,6 +3,7 @@ package hrm.servlets;
 import hrm.entities.Department;
 import hrm.entities.Employee;
 import hrm.entities.Position;
+import hrm.entities.PositionHistory;
 import hrm.helpers.AuthHelper;
 import hrm.helpers.DateHelper;
 import hrm.infrastructure.Constants;
@@ -54,7 +55,31 @@ public class EmployeeEditServlet extends HttpServlet {
         employee.setId(id);
 
         try {
+
+            Employee dbEmployee = employeeRepository.GetEmployeeById(id);
+
+            boolean needToLog = false;
+            if(dbEmployee.getPositionId() != employee.getPositionId() ||
+               dbEmployee.getDepartmentId() != employee.getDepartmentId())
+            {
+                needToLog = true;
+            }
+
             employeeRepository.UpdateEmployee(employee);
+            if(needToLog) {
+                Date currentDate = DateHelper.getUTCdatetimeAsDate();
+                java.sql.Date sqlDate = new java.sql.Date(currentDate.getTime());
+
+                PositionHistory lastHistory = positionHistoryRepository.GetLastPositionHistory(employee.getId(), dbEmployee.getDepartmentId(), dbEmployee.getPositionId());
+                if(lastHistory != null) {
+                    lastHistory.setEndDate(sqlDate);
+                    positionHistoryRepository.UpdatePositionHistory(lastHistory);
+                }
+
+                positionHistoryRepository.InsertPositionHistory(new PositionHistory(sqlDate, null, employee.getId(), employee.getPositionId(), employee.getDepartmentId()));
+            }
+
+
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }

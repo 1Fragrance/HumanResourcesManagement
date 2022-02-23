@@ -55,6 +55,24 @@ public class PositionHistoryRepository {
         return resultList;
     }
 
+    public PositionHistory GetLastPositionHistory(int employeeId, int departmentId, int positionId) throws SQLException, ClassNotFoundException {
+        Connection connection = DbContext.openConnection();
+        String query = "SELECT * FROM PositionHistory WHERE employeeId = ? && departmentId = ? && positionId = ? ORDER BY Id DESC";
+        PreparedStatement sqlStatement = connection.prepareStatement(query);
+
+        sqlStatement.setString(1, Integer.toString(employeeId));
+        sqlStatement.setString(2, Integer.toString(departmentId));
+        sqlStatement.setString(3, Integer.toString(positionId));
+
+        ResultSet results = sqlStatement.executeQuery();
+
+        if(results.next()) {
+            return MapResultSetToEntity(results);
+        }
+        return null;
+    }
+
+
     public void InsertPositionHistory(PositionHistory positionHistory) throws SQLException, ClassNotFoundException {
         Connection connection = DbContext.openConnection();
         String query = "INSERT `positionHistory` (startDate, endDate, employeeId, positionId, departmentId) VALUES (?, ?, ?, ?, ?)";

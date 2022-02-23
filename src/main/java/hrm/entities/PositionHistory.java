@@ -10,6 +10,19 @@ public class PositionHistory extends EntityBase {
     private int positionId;
     private int departmentId;
 
+    public PositionHistory() {
+
+    }
+
+    public PositionHistory(Date _startDate, Date _endDate, int _employeeId, int _positionId, int _departmentId) {
+        startDate = _startDate;
+        endDate = _endDate;
+        employeeId = _employeeId;
+        positionId = _positionId;
+        departmentId = _departmentId;
+    }
+
+
     public Date getStartDate() {
         return startDate;
     }
