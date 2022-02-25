@@ -29,7 +29,7 @@
 
                     <fieldset class="form-group">
                         <label>Имя</label>
-                        <input type="text" value="${employee.firstName}" class="form-control" name="firstName" required="required">
+                        <input type="text" value="${employee.firstName}" class="form-control" name="firstName">
                     </fieldset>
 
                     <fieldset class="form-group">
@@ -122,7 +122,7 @@
                     <label>${employee.hireDate}</label>
                 </fieldset>
                 </c:if>
-
+                    <p style="color: red;">${errorString}</p>
                     <button type="submit" class="btn btn-success">Save</button>
                 </form>
         </div>

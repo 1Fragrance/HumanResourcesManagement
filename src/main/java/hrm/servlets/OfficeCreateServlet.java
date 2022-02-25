@@ -3,6 +3,8 @@ package hrm.servlets;
 import hrm.entities.Department;
 import hrm.entities.Office;
 import hrm.helpers.AuthHelper;
+import hrm.models.OfficeViewModel;
+import hrm.models.validators.OfficeValidator;
 import hrm.repositories.DepartmentRepository;
 import hrm.repositories.OfficeRepository;
 
@@ -19,9 +21,10 @@ import java.sql.SQLException;
 @WebServlet("/officeCreate")
 public class OfficeCreateServlet extends HttpServlet {
     private OfficeRepository officeRepository;
-
+    private OfficeValidator officeValidator;
     public void init() {
         officeRepository = new OfficeRepository();
+        officeValidator = new OfficeValidator();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,6 +33,23 @@ public class OfficeCreateServlet extends HttpServlet {
         }
 
         Office office = parseForm(request);
+
+        ValidationResult validationResult = officeValidator.Validate(office);
+        if(!validationResult.isSuccess()) {
+            try {
+                populateDropDowns(request);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+            request.setAttribute("errorString", validationResult.getError());
+            request.setAttribute("office", office);
+
+            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/office-form.jsp");
+            dispatcher.forward(request, response);
+
+            return;
+        }
+
         try {
             officeRepository.InsertOffice(office);
         } catch (SQLException | ClassNotFoundException throwables) {

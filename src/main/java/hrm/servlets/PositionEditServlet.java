@@ -2,6 +2,7 @@ package hrm.servlets;
 
 import hrm.entities.Position;
 import hrm.helpers.AuthHelper;
+import hrm.models.validators.PositionValidator;
 import hrm.repositories.*;
 
 import javax.servlet.RequestDispatcher;
@@ -18,9 +19,10 @@ import java.sql.SQLException;
 public class PositionEditServlet extends HttpServlet {
 
     private PositionRepository positionRepository;
-
+    private PositionValidator positionValidator;
     public void init() {
         positionRepository = new PositionRepository();
+        positionValidator = new PositionValidator();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,6 +34,22 @@ public class PositionEditServlet extends HttpServlet {
         Position position = parseForm(request);
         int id = Integer.parseInt(request.getParameter("id"));
         position.setId(id);
+
+        ValidationResult validationResult = positionValidator.Validate(position);
+        if(!validationResult.isSuccess()) {
+            try {
+                populateDropDowns(request);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+            request.setAttribute("errorString", validationResult.getError());
+            request.setAttribute("position", position);
+
+            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/position-form.jsp");
+            dispatcher.forward(request, response);
+
+            return;
+        }
 
         try {
             positionRepository.UpdatePosition(position);

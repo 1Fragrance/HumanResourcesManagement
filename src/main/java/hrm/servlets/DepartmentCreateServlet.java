@@ -7,6 +7,7 @@ import hrm.helpers.AuthHelper;
 import hrm.infrastructure.Constants;
 import hrm.infrastructure.EmployeeStatuses;
 import hrm.models.LookupViewModel;
+import hrm.models.validators.DepartmentValidator;
 import hrm.repositories.DepartmentRepository;
 import hrm.repositories.OfficeRepository;
 
@@ -25,9 +26,11 @@ import java.util.List;
 public class DepartmentCreateServlet extends HttpServlet {
     private DepartmentRepository departmentRepository;
     private OfficeRepository officeRepository;
+    private DepartmentValidator departmentValidator;
     public void init() {
         departmentRepository = new DepartmentRepository();
         officeRepository = new OfficeRepository();
+        departmentValidator = new DepartmentValidator();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,8 +38,24 @@ public class DepartmentCreateServlet extends HttpServlet {
         if(!AuthHelper.ValidateAdminPermission(request)) {
             response.sendRedirect("/");
         }
-
         Department department = parseForm(request);
+
+        ValidationResult validationResult = departmentValidator.Validate(department);
+        if(!validationResult.isSuccess()) {
+            try {
+                populateDropDowns(request);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+            request.setAttribute("errorString", validationResult.getError());
+            request.setAttribute("department", department);
+
+            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/department-form.jsp");
+            dispatcher.forward(request, response);
+
+            return;
+        }
+
         try {
             departmentRepository.InsertDepartment(department);
         } catch (SQLException | ClassNotFoundException throwables) {

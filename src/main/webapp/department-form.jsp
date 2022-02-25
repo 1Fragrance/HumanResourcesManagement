@@ -29,7 +29,7 @@
 
                         <fieldset class="form-group">
                             <label>Название</label>
-                            <input type="text" value="${department.name}" class="form-control" name="name" required="required">
+                            <input type="text" value="${department.name}" class="form-control" name="name">
                         </fieldset>
 
 
@@ -43,7 +43,7 @@
                                 </c:forEach>
                             </select>
                         </fieldset>
-
+                        <p style="color: red;">${errorString}</p>
                         <button type="submit" class="btn btn-success">Save</button>
                     </form>
             </div>

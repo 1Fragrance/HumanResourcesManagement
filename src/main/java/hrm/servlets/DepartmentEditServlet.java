@@ -5,6 +5,7 @@ import hrm.entities.Office;
 import hrm.entities.Position;
 import hrm.helpers.AuthHelper;
 import hrm.models.LookupViewModel;
+import hrm.models.validators.DepartmentValidator;
 import hrm.repositories.DepartmentRepository;
 import hrm.repositories.OfficeRepository;
 import hrm.repositories.PositionRepository;
@@ -25,7 +26,9 @@ public class DepartmentEditServlet extends HttpServlet {
 
     private DepartmentRepository departmentRepository;
     private OfficeRepository officeRepository;
+    private DepartmentValidator departmentValidator;
     public void init() {
+        departmentValidator = new DepartmentValidator();
         departmentRepository = new DepartmentRepository();
         officeRepository = new OfficeRepository();
     }
@@ -38,6 +41,23 @@ public class DepartmentEditServlet extends HttpServlet {
         Department department = parseForm(request);
         int id = Integer.parseInt(request.getParameter("id"));
         department.setId(id);
+
+        ValidationResult validationResult = departmentValidator.Validate(department);
+        if(!validationResult.isSuccess()) {
+            try {
+                populateDropDowns(request);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+            request.setAttribute("errorString", validationResult.getError());
+            request.setAttribute("department", department);
+
+            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/department-form.jsp");
+            dispatcher.forward(request, response);
+
+            return;
+        }
+
 
         try {
             departmentRepository.UpdateDepartment(department);

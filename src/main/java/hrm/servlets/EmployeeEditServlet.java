@@ -13,6 +13,7 @@ import hrm.models.LookupViewModel;
 import hrm.models.mappers.DepartmentMapper;
 import hrm.models.mappers.EmployeeMapper;
 import hrm.models.mappers.PositionMapper;
+import hrm.models.validators.EmployeeValidator;
 import hrm.repositories.*;
 
 import javax.servlet.RequestDispatcher;
@@ -35,13 +36,14 @@ public class EmployeeEditServlet extends HttpServlet {
     private DepartmentRepository departmentRepository;
     private OfficeRepository officeRepository;
     private PositionHistoryRepository positionHistoryRepository;
-
+    private EmployeeValidator employeeValidator;
     public void init() {
         employeeRepository = new EmployeeRepository();
         positionRepository = new PositionRepository();
         departmentRepository = new DepartmentRepository();
         officeRepository = new OfficeRepository();
         positionHistoryRepository = new PositionHistoryRepository();
+        employeeValidator = new EmployeeValidator();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -54,8 +56,24 @@ public class EmployeeEditServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         employee.setId(id);
 
-        try {
+        ValidationResult validationResult = employeeValidator.Validate(employee);
+        if(!validationResult.isSuccess()) {
+            try {
+                populateDropDowns(request);
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+            request.setAttribute("errorString", validationResult.getError());
+            request.setAttribute("employee", employee);
 
+            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/employee-form.jsp");
+            dispatcher.forward(request, response);
+
+            return;
+        }
+
+
+        try {
             Employee dbEmployee = employeeRepository.GetEmployeeById(id);
 
             boolean needToLog = false;

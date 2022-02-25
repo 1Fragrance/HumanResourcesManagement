@@ -29,7 +29,7 @@
 
                         <fieldset class="form-group">
                             <label>Название</label>
-                            <input type="text" value="${office.internalName}" class="form-control" name="internalName" required="required">
+                            <input type="text" value="${office.internalName}" class="form-control" name="internalName">
                         </fieldset>
 
                         <fieldset class="form-group">
@@ -51,7 +51,7 @@
                             <label>Индекс</label>
                             <input type="number" value="${office.postalCode}" class="form-control" name="postalCode">
                         </fieldset>
-
+                        <p style="color: red;">${errorString}</p>
                         <button type="submit" class="btn btn-success">Save</button>
                     </form>
             </div>

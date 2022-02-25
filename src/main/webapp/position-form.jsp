@@ -29,7 +29,7 @@
 
                         <fieldset class="form-group">
                             <label>Название</label>
-                            <input type="text" value="${position.title}" class="form-control" name="title" required="required">
+                            <input type="text" value="${position.title}" class="form-control" name="title">
                         </fieldset>
 
                         <fieldset class="form-group">
@@ -42,7 +42,7 @@
                             <input type="number" value="${position.maxSalary}" class="form-control" name="maxSalary">
                         </fieldset>
 
-
+                        <p style="color: red;">${errorString}</p>
                         <button type="submit" class="btn btn-success">Save</button>
                     </form>
             </div>
