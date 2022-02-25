@@ -8,9 +8,11 @@
     <div class="container">
         <h3 class="text-center">Список сотрудников</h3>
         <hr>
+        <c:if test="${user.admin}">
         <div class="container text-left">
             <a href="${pageContext.request.contextPath}/employeeCreate" class="btn btn-success">Добавить нового сотрудника</a>
         </div>
+        </c:if>
         <br>
         <table class="table table-bordered">
             <thead>
@@ -21,7 +23,9 @@
                 <th>Департамент</th>
                 <th>Должность</th>
                 <th>Статус</th>
+                <c:if test="${user.admin}">
                 <th>Операции</th>
+                </c:if>
             </tr>
             </thead>
             <tbody>
@@ -46,6 +50,7 @@
                     <td>
                         ${employee.statusName}
                     </td>
+                    <c:if test="${user.admin}">
                     <td>
                         <c:if test="${!employee.admin}">
                             <c:choose>
@@ -61,7 +66,9 @@
 
                         <a href="employeeEdit?id=${employee.id}">Редактировать</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="deleteEmployee?id=${employee.id}">Удалить</a></td>
+                        <a href="deleteEmployee?id=${employee.id}">Удалить</a>
+                    </td>
+                    </c:if>
                 </tr>
             </c:forEach>
             </tbody>

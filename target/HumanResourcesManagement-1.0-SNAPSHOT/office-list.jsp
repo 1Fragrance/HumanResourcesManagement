@@ -7,9 +7,11 @@
         <div class="container">
             <h3 class="text-center">Список офисов</h3>
             <hr>
+            <c:if test="${user.admin}">
             <div class="container text-left">
                 <a href="${pageContext.request.contextPath}/officeCreate" class="btn btn-success">Добавить новый офис</a>
             </div>
+            </c:if>
             <br>
             <table class="table table-bordered">
                 <thead>
@@ -20,7 +22,9 @@
                     <th>Город</th>
                     <th>Адрес</th>
                     <th>Индекс</th>
+                    <c:if test="${user.admin}">
                     <th>Операции</th>
+                    </c:if>
                 </tr>
                 </thead>
                 <tbody>
@@ -45,10 +49,13 @@
                         <td>
                                 ${office.postalCode}
                         </td>
+                        <c:if test="${user.admin}">
                         <td>
                             <a href="officeEdit?id=${office.id}">Редактировать</a>
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <a href="deleteOffice?id=${office.id}">Удалить</a></td>
+                            <a href="deleteOffice?id=${office.id}">Удалить</a>
+                        </td>
+                        </c:if>
                     </tr>
                 </c:forEach>
                 </tbody>

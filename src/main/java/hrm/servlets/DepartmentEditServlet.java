@@ -79,6 +79,7 @@ public class DepartmentEditServlet extends HttpServlet {
     private Department parseForm(HttpServletRequest request) {
         Department department = new Department();
         department.setName(request.getParameter("name"));
+        department.setOfficeId(Integer.parseInt(request.getParameter("officeId")));
 
         return department;
     }

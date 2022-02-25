@@ -7,9 +7,11 @@
         <div class="container">
             <h3 class="text-center">Список должностей</h3>
             <hr>
+            <c:if test="${user.admin}">
             <div class="container text-left">
                 <a href="${pageContext.request.contextPath}/positionCreate" class="btn btn-success">Добавить новую должность</a>
             </div>
+            </c:if>
             <br>
             <table class="table table-bordered">
                 <thead>
@@ -18,7 +20,9 @@
                     <th>Название</th>
                     <th>Минимальная ЗП</th>
                     <th>Максимальная ЗП</th>
+                    <c:if test="${user.admin}">
                     <th>Операции</th>
+                    </c:if>
                 </tr>
                 </thead>
                 <tbody>
@@ -37,10 +41,12 @@
                         <td>
                                 ${position.maxSalary}
                         </td>
+                        <c:if test="${user.admin}">
                         <td>
                             <a href="positionEdit?id=${position.id}">Редактировать</a>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <a href="deletePosition?id=${position.id}">Удалить</a></td>
+                        </c:if>
                     </tr>
                 </c:forEach>
                 </tbody>

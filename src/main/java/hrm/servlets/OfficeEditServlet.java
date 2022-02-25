@@ -64,6 +64,7 @@ public class OfficeEditServlet extends HttpServlet {
         office.setCountry(request.getParameter("country"));
         office.setInternalName(request.getParameter("internalName"));
         office.setStreetAddress(request.getParameter("streetAddress"));
+        office.setPostalCode(request.getParameter("postalCode"));
 
         return office;
     }
