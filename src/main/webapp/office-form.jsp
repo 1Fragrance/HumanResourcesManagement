@@ -7,23 +7,23 @@
     <div class="container col-md-5">
         <div class="card">
             <div class="card-body">
-                    <c:if test="${office != null}">
+                    <c:if test="${office != null && office.id != 0}">
                         <form action="officeEdit" method="post">
                     </c:if>
-                    <c:if test="${office == null}">
+                    <c:if test="${office == null || office.id == 0}">
                         <form action="officeCreate" method="post">
                     </c:if>
                         <caption>
                             <h2>
-                                <c:if test="${office != null}">
+                                <c:if test="${office != null && office.id != 0}">
                                     Редактирование информации об офисе
                                 </c:if>
-                                <c:if test="${office == null}">
+                                <c:if test="${office == null || office.id == 0}">
                                     Добавление нового офиса
                                 </c:if>
                             </h2>
                         </caption>
-                        <c:if test="${office != null}">
+                        <c:if test="${office != null && office.id != 0}">
                             <input type="hidden" name="id" value="${office.id}" />
                         </c:if>
 

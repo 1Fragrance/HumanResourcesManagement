@@ -65,6 +65,23 @@ public class EmployeeRepository {
         return null;
     }
 
+    public Employee GetEmployeeByCredentials(String username, int excludeId) throws SQLException, ClassNotFoundException{
+        Connection connection = DbContext.openConnection();
+        String query = "SELECT * FROM Employee WHERE userName = ? && id != ?" ;
+        PreparedStatement sqlStatement = connection.prepareStatement(query);
+
+        sqlStatement.setString(1, username);
+        sqlStatement.setInt(2, excludeId);
+
+        ResultSet results = sqlStatement.executeQuery();
+
+        if(results.next()) {
+            return MapResultSetToEntity(results);
+        }
+        return null;
+    }
+
+
     public Employee GetEmployeeById(int id) throws SQLException, ClassNotFoundException{
         Connection connection = DbContext.openConnection();
         String query = "SELECT * FROM Employee WHERE Id = ?";

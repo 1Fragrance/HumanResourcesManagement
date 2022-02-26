@@ -2,7 +2,10 @@ package hrm.servlets;
 
 import hrm.entities.Position;
 import hrm.helpers.AuthHelper;
+import hrm.models.PositionViewModel;
+import hrm.models.mappers.PositionMapper;
 import hrm.models.validators.PositionValidator;
+import hrm.models.validators.ValidationResult;
 import hrm.repositories.*;
 
 import javax.servlet.RequestDispatcher;
@@ -31,17 +34,12 @@ public class PositionEditServlet extends HttpServlet {
             response.sendRedirect("/");
         }
 
-        Position position = parseForm(request);
+        PositionViewModel position = parseForm(request);
         int id = Integer.parseInt(request.getParameter("id"));
         position.setId(id);
 
         ValidationResult validationResult = positionValidator.Validate(position);
         if(!validationResult.isSuccess()) {
-            try {
-                populateDropDowns(request);
-            } catch (SQLException | ClassNotFoundException throwables) {
-                throwables.printStackTrace();
-            }
             request.setAttribute("errorString", validationResult.getError());
             request.setAttribute("position", position);
 
@@ -52,7 +50,8 @@ public class PositionEditServlet extends HttpServlet {
         }
 
         try {
-            positionRepository.UpdatePosition(position);
+            Position entity = PositionMapper.MapToEntity(position);
+            positionRepository.UpdatePosition(entity);
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -74,8 +73,8 @@ public class PositionEditServlet extends HttpServlet {
     }
 
 
-    private Position parseForm(HttpServletRequest request) {
-        Position position = new Position();
+    private PositionViewModel parseForm(HttpServletRequest request) {
+        PositionViewModel position = new PositionViewModel();
         position.setTitle(request.getParameter("title"));
         position.setMaxSalary(Float.parseFloat(request.getParameter("maxSalary")));
         position.setMinSalary(Float.parseFloat(request.getParameter("minSalary")));

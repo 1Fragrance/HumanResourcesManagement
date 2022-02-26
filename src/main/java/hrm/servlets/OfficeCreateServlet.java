@@ -4,7 +4,9 @@ import hrm.entities.Department;
 import hrm.entities.Office;
 import hrm.helpers.AuthHelper;
 import hrm.models.OfficeViewModel;
+import hrm.models.mappers.OfficeMapper;
 import hrm.models.validators.OfficeValidator;
+import hrm.models.validators.ValidationResult;
 import hrm.repositories.DepartmentRepository;
 import hrm.repositories.OfficeRepository;
 
@@ -32,15 +34,10 @@ public class OfficeCreateServlet extends HttpServlet {
             response.sendRedirect("/");
         }
 
-        Office office = parseForm(request);
+        OfficeViewModel office = parseForm(request);
 
         ValidationResult validationResult = officeValidator.Validate(office);
         if(!validationResult.isSuccess()) {
-            try {
-                populateDropDowns(request);
-            } catch (SQLException | ClassNotFoundException throwables) {
-                throwables.printStackTrace();
-            }
             request.setAttribute("errorString", validationResult.getError());
             request.setAttribute("office", office);
 
@@ -51,7 +48,8 @@ public class OfficeCreateServlet extends HttpServlet {
         }
 
         try {
-            officeRepository.InsertOffice(office);
+            Office entity = OfficeMapper.MapToEntity(office);
+            officeRepository.InsertOffice(entity);
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -64,8 +62,8 @@ public class OfficeCreateServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    private Office parseForm(HttpServletRequest request) {
-        Office office = new Office();
+    private OfficeViewModel parseForm(HttpServletRequest request) {
+        OfficeViewModel office = new OfficeViewModel();
 
         office.setCity(request.getParameter("city"));
         office.setCountry(request.getParameter("country"));

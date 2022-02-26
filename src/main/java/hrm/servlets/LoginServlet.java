@@ -1,6 +1,7 @@
 package hrm.servlets;
 
 import hrm.entities.Employee;
+import hrm.infrastructure.EmployeeStatuses;
 import hrm.repositories.EmployeeRepository;
 
 import javax.servlet.RequestDispatcher;
@@ -39,6 +40,9 @@ public class LoginServlet extends HttpServlet {
                 if (employee == null) {
                     hasError = true;
                     errorString = "Неправильный логин или пароль";
+                } else if(employee.getStatus() == EmployeeStatuses.Blocked) {
+                    hasError = true;
+                    errorString = "Пользователь заблокирован";
                 }
             } catch (SQLException | ClassNotFoundException e) {
                 e.printStackTrace();

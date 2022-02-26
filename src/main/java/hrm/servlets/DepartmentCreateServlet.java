@@ -6,8 +6,11 @@ import hrm.entities.Position;
 import hrm.helpers.AuthHelper;
 import hrm.infrastructure.Constants;
 import hrm.infrastructure.EmployeeStatuses;
+import hrm.models.DepartmentViewModel;
 import hrm.models.LookupViewModel;
+import hrm.models.mappers.DepartmentMapper;
 import hrm.models.validators.DepartmentValidator;
+import hrm.models.validators.ValidationResult;
 import hrm.repositories.DepartmentRepository;
 import hrm.repositories.OfficeRepository;
 
@@ -38,7 +41,7 @@ public class DepartmentCreateServlet extends HttpServlet {
         if(!AuthHelper.ValidateAdminPermission(request)) {
             response.sendRedirect("/");
         }
-        Department department = parseForm(request);
+        DepartmentViewModel department = parseForm(request);
 
         ValidationResult validationResult = departmentValidator.Validate(department);
         if(!validationResult.isSuccess()) {
@@ -57,7 +60,9 @@ public class DepartmentCreateServlet extends HttpServlet {
         }
 
         try {
-            departmentRepository.InsertDepartment(department);
+            Department departmentEntity = DepartmentMapper.MapToEntity(department);
+
+            departmentRepository.InsertDepartment(departmentEntity);
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -86,8 +91,8 @@ public class DepartmentCreateServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    private Department parseForm(HttpServletRequest request) {
-        Department department = new Department();
+    private DepartmentViewModel parseForm(HttpServletRequest request) {
+        DepartmentViewModel department = new DepartmentViewModel();
 
         department.setName(request.getParameter("name"));
         department.setOfficeId(Integer.parseInt(request.getParameter("officeId")));

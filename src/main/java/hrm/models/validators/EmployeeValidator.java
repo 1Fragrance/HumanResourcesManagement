@@ -1,7 +1,9 @@
 package hrm.models.validators;
 
+import hrm.entities.Employee;
 import hrm.entities.Position;
 import hrm.models.EmployeeViewModel;
+import hrm.repositories.EmployeeRepository;
 import hrm.repositories.PositionRepository;
 
 import java.sql.SQLException;
@@ -11,11 +13,13 @@ import java.util.regex.Pattern;
 public class EmployeeValidator implements IValidator<EmployeeViewModel> {
 
     PositionRepository positionRepository;
+    EmployeeRepository employeeRepository;
     String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
     Pattern pattern;
     public EmployeeValidator() {
         positionRepository = new PositionRepository();
         pattern = Pattern.compile(emailRegex);
+        employeeRepository = new EmployeeRepository();
     }
 
     @Override
@@ -40,6 +44,18 @@ public class EmployeeValidator implements IValidator<EmployeeViewModel> {
 
         if(model.getUserName() == null || model.getUserName().equals("")) {
             return new ValidationResult("Логин обязателен к заполнению");
+        } else {
+            Employee existingEmployee = null;
+
+            // NOTE: if create
+            if(model.getId() == 0) {
+                existingEmployee = employeeRepository.GetEmployeeByCredentials(model.getUserName());
+            } else {
+                existingEmployee = employeeRepository.GetEmployeeByCredentials(model.getUserName(), model.getId());
+            }
+            if(existingEmployee != null) {
+                return new ValidationResult("Пользователь с таким логином уже существует в системе");
+            }
         }
 
         if(model.getPassword() == null || model.getPassword().equals("")) {

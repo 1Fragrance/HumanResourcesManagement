@@ -7,29 +7,29 @@
     <div class="container col-md-5">
         <div class="card">
             <div class="card-body">
-                    <c:if test="${office != null}">
+                    <c:if test="${office != null && office.id != 0}">
                         <form action="officeEdit" method="post">
                     </c:if>
-                    <c:if test="${office == null}">
+                    <c:if test="${office == null || office.id == 0}">
                         <form action="officeCreate" method="post">
                     </c:if>
                         <caption>
                             <h2>
-                                <c:if test="${office != null}">
+                                <c:if test="${office != null && office.id != 0}">
                                     Редактирование информации об офисе
                                 </c:if>
-                                <c:if test="${office == null}">
+                                <c:if test="${office == null || office.id == 0}">
                                     Добавление нового офиса
                                 </c:if>
                             </h2>
                         </caption>
-                        <c:if test="${office != null}">
+                        <c:if test="${office != null && office.id != 0}">
                             <input type="hidden" name="id" value="${office.id}" />
                         </c:if>
 
                         <fieldset class="form-group">
                             <label>Название</label>
-                            <input type="text" value="${office.internalName}" class="form-control" name="internalName" required="required">
+                            <input type="text" value="${office.internalName}" class="form-control" name="internalName">
                         </fieldset>
 
                         <fieldset class="form-group">
@@ -51,7 +51,7 @@
                             <label>Индекс</label>
                             <input type="number" value="${office.postalCode}" class="form-control" name="postalCode">
                         </fieldset>
-
+                        <p style="color: red;">${errorString}</p>
                         <button type="submit" class="btn btn-success">Save</button>
                     </form>
             </div>

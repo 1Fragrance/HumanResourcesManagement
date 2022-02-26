@@ -4,8 +4,11 @@ import hrm.entities.Department;
 import hrm.entities.Office;
 import hrm.entities.Position;
 import hrm.helpers.AuthHelper;
+import hrm.models.DepartmentViewModel;
 import hrm.models.LookupViewModel;
+import hrm.models.mappers.DepartmentMapper;
 import hrm.models.validators.DepartmentValidator;
+import hrm.models.validators.ValidationResult;
 import hrm.repositories.DepartmentRepository;
 import hrm.repositories.OfficeRepository;
 import hrm.repositories.PositionRepository;
@@ -38,7 +41,7 @@ public class DepartmentEditServlet extends HttpServlet {
             response.sendRedirect("/");
         }
 
-        Department department = parseForm(request);
+        DepartmentViewModel department = parseForm(request);
         int id = Integer.parseInt(request.getParameter("id"));
         department.setId(id);
 
@@ -60,7 +63,8 @@ public class DepartmentEditServlet extends HttpServlet {
 
 
         try {
-            departmentRepository.UpdateDepartment(department);
+            Department entity = DepartmentMapper.MapToEntity(department);
+            departmentRepository.UpdateDepartment(entity);
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -96,8 +100,8 @@ public class DepartmentEditServlet extends HttpServlet {
         request.setAttribute("offices", offices);
     }
 
-    private Department parseForm(HttpServletRequest request) {
-        Department department = new Department();
+    private DepartmentViewModel parseForm(HttpServletRequest request) {
+        DepartmentViewModel department = new DepartmentViewModel();
         department.setName(request.getParameter("name"));
         department.setOfficeId(Integer.parseInt(request.getParameter("officeId")));
 

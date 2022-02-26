@@ -8,6 +8,7 @@ public final class DepartmentMapper {
         Department entity = new Department();
         entity.setId(model.getId());
         entity.setName(model.getName());
+        entity.setOfficeId(model.getOfficeId());
 
         // NOTE: We do not map relative entities info
 
@@ -18,7 +19,7 @@ public final class DepartmentMapper {
         DepartmentViewModel model = new DepartmentViewModel();
         model.setId(entity.getId());
         model.setName(entity.getName());
-
+        model.setOfficeId(entity.getOfficeId());
         // NOTE: We do not map relative entities info
 
         return model;

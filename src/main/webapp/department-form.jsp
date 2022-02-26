@@ -7,23 +7,23 @@
     <div class="container col-md-5">
         <div class="card">
             <div class="card-body">
-                <c:if test="${department != null}">
+                <c:if test="${department != null && department.id != 0}">
                 <form action="departmentEdit" method="post">
                     </c:if>
-                    <c:if test="${department == null}">
+                    <c:if test="${department == null || department.id == 0}">
                     <form action="departmentCreate" method="post">
                         </c:if>
                         <caption>
                             <h2>
-                                <c:if test="${department != null}">
+                                <c:if test="${department != null && department.id != 0}">
                                     Редактирование информации об отделе
                                 </c:if>
-                                <c:if test="${department == null}">
+                                <c:if test="${department == null || department.id == 0}">
                                     Добавление нового отдела
                                 </c:if>
                             </h2>
                         </caption>
-                        <c:if test="${department != null}">
+                        <c:if test="${department != null && department.id != 0}">
                             <input type="hidden" name="id" value="${department.id}" />
                         </c:if>
 

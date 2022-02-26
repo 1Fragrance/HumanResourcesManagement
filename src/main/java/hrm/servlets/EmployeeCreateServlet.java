@@ -14,6 +14,7 @@ import hrm.models.mappers.DepartmentMapper;
 import hrm.models.mappers.EmployeeMapper;
 import hrm.models.mappers.PositionMapper;
 import hrm.models.validators.EmployeeValidator;
+import hrm.models.validators.ValidationResult;
 import hrm.repositories.*;
 
 import javax.servlet.RequestDispatcher;
@@ -51,9 +52,21 @@ public class EmployeeCreateServlet extends HttpServlet {
             response.sendRedirect("/");
         }
 
-        Employee employee = parseForm(request);
+        EmployeeViewModel employee = parseForm(request);
 
-        ValidationResult validationResult = employeeValidator.Validate(employee);
+        ValidationResult validationResult = null;
+        try {
+            validationResult = employeeValidator.Validate(employee);
+        } catch (SQLException | ClassNotFoundException throwables) {
+            request.setAttribute("errorString", throwables.getMessage());
+            request.setAttribute("employee", employee);
+
+            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/employee-form.jsp");
+            dispatcher.forward(request, response);
+
+            return;
+        }
+
         if(!validationResult.isSuccess()) {
             try {
                 populateDropDowns(request);
@@ -69,9 +82,9 @@ public class EmployeeCreateServlet extends HttpServlet {
             return;
         }
 
-
         try {
-            employeeRepository.InsertEmployee(employee);
+            Employee entity = EmployeeMapper.MapToEntity(employee);
+            employeeRepository.InsertEmployee(entity);
 
             Date currentDate = DateHelper.getUTCdatetimeAsDate();
             java.sql.Date sqlDate = new java.sql.Date(currentDate.getTime());
@@ -117,8 +130,8 @@ public class EmployeeCreateServlet extends HttpServlet {
         request.setAttribute("positions", positions);
     }
 
-    private Employee parseForm(HttpServletRequest request) {
-        Employee employee = new Employee();
+    private EmployeeViewModel parseForm(HttpServletRequest request) {
+        EmployeeViewModel employee = new EmployeeViewModel();
         employee.setFirstName(request.getParameter("firstName"));
         employee.setLastName(request.getParameter("lastName"));
         employee.setPatronymic(request.getParameter("patronymic"));

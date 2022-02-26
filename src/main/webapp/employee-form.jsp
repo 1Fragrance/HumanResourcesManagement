@@ -7,23 +7,23 @@
 <div class="container col-md-5">
     <div class="card">
         <div class="card-body">
-            <c:if test="${employee != null}">
+            <c:if test="${employee != null && employee.id != 0}">
                 <form action="employeeEdit" method="post">
             </c:if>
-            <c:if test="${employee == null}">
+            <c:if test="${employee == null || employee.id == 0}">
                 <form action="employeeCreate" method="post">
             </c:if>
                     <caption>
                         <h2>
-                            <c:if test="${employee != null}">
+                            <c:if test="${employee != null && employee.id != 0}">
                                 Редактирование сотрудника
                             </c:if>
-                            <c:if test="${employee == null}">
+                            <c:if test="${employee == null || employee.id == 0}">
                                 Добавление нового сотрудника
                             </c:if>
                         </h2>
                     </caption>
-                    <c:if test="${employee != null}">
+                    <c:if test="${employee != null && employee.id != 0}">
                         <input type="hidden" name="id" value="${employee.id}" />
                     </c:if>
 
@@ -102,7 +102,7 @@
                     <input type="password" value="${employee.password}" class="form-control" name="password">
                 </fieldset>
 
-                <c:if test="${employee != null}">
+                <c:if test="${employee != null && employee.id != 0}">
                 <fieldset class="form-group">
                     <label>Является администратором:</label>
                     <br>
@@ -115,7 +115,7 @@
                 </fieldset>
                 </c:if>
 
-                <c:if test="${employee != null}">
+                <c:if test="${employee != null && employee.id != 0}">
                 <fieldset class="form-group">
                     <label>Дата создания</label>
                     <br>
