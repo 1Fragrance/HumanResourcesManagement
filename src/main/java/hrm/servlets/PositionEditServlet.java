@@ -76,8 +76,10 @@ public class PositionEditServlet extends HttpServlet {
     private PositionViewModel parseForm(HttpServletRequest request) {
         PositionViewModel position = new PositionViewModel();
         position.setTitle(request.getParameter("title"));
-        position.setMaxSalary(Float.parseFloat(request.getParameter("maxSalary")));
-        position.setMinSalary(Float.parseFloat(request.getParameter("minSalary")));
+        if(request.getParameter("maxSalary") != null && !request.getParameter("maxSalary").equals(""))
+            position.setMaxSalary(Float.parseFloat(request.getParameter("maxSalary")));
+        if(request.getParameter("minSalary") != null && !request.getParameter("minSalary").equals(""))
+            position.setMinSalary(Float.parseFloat(request.getParameter("minSalary")));
 
         return position;
     }

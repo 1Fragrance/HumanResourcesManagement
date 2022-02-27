@@ -103,7 +103,10 @@ public class DepartmentEditServlet extends HttpServlet {
     private DepartmentViewModel parseForm(HttpServletRequest request) {
         DepartmentViewModel department = new DepartmentViewModel();
         department.setName(request.getParameter("name"));
-        department.setOfficeId(Integer.parseInt(request.getParameter("officeId")));
+
+        if(request.getParameter("officeId") != null && !request.getParameter("officeId").equals(""))
+            department.setOfficeId(Integer.parseInt(request.getParameter("officeId")));
+
 
         return department;
     }

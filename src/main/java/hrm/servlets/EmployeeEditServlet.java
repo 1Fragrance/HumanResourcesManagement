@@ -161,7 +161,8 @@ public class EmployeeEditServlet extends HttpServlet {
         employee.setLastName(request.getParameter("lastName"));
         employee.setPatronymic(request.getParameter("patronymic"));
         employee.setPhoneNumber(request.getParameter("phoneNumber"));
-        employee.setSalary(Float.parseFloat(request.getParameter("salary")));
+        if(request.getParameter("salary") != null && !request.getParameter("salary").equals(""))
+            employee.setSalary(Float.parseFloat(request.getParameter("salary")));
         employee.setEmail(request.getParameter("email"));
         employee.setUserName(request.getParameter("userName"));
         employee.setPassword(request.getParameter("password"));
