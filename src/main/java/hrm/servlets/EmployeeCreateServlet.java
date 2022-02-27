@@ -132,13 +132,15 @@ public class EmployeeCreateServlet extends HttpServlet {
 
     private EmployeeViewModel parseForm(HttpServletRequest request) {
         EmployeeViewModel employee = new EmployeeViewModel();
+
         employee.setFirstName(request.getParameter("firstName"));
         employee.setLastName(request.getParameter("lastName"));
         employee.setPatronymic(request.getParameter("patronymic"));
         employee.setPhoneNumber(request.getParameter("phoneNumber"));
         Date currentDate = DateHelper.getUTCdatetimeAsDate();
         employee.setHireDate(new java.sql.Date(currentDate.getTime()));
-        employee.setSalary(Float.parseFloat(request.getParameter("salary")));
+        if(request.getParameter("salary") != null && !request.getParameter("salary").equals(""))
+            employee.setSalary(Float.parseFloat(request.getParameter("salary")));
         employee.setEmail(request.getParameter("email"));
         employee.setUserName(request.getParameter("userName"));
         employee.setPassword(request.getParameter("password"));

@@ -1,5 +1,7 @@
 package hrm.infrastructure;
 
+import java.nio.charset.StandardCharsets;
+
 public final class Constants {
     public static final class SQLConstants {
         public static final String ConnectionString = "jdbc:mysql://localhost:3306/human_resources";
